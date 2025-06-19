@@ -50,3 +50,7 @@ Your submission will be evaluated on the following criteria:
 - Do not hesitate to ask questions if any part of the test is unclear.
 
 Good luck, and happy coding!
+
+Hi would like to apologize for not finished task, but I had limited time.
+I skipped part  unit tests as I had no time to finish refactoring. As I set death line for today,
+I send what I was able to do.

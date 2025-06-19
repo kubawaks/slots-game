@@ -11,6 +11,7 @@ const SYMBOL_SIZE = 150;
 const REEL_HEIGHT = SYMBOL_SIZE;
 const REEL_SPACING = 10;
 
+// The same as with Reel class
 export class SlotMachine {
     public container: PIXI.Container;
     private reels: Reel[];
@@ -100,6 +101,7 @@ export class SlotMachine {
     }
 
     private stopSpin(): void {
+        // this part I would like to refactor to make it more clear and readable (nested setTimeout)
         for (let i = 0; i < this.reels.length; i++) {
             setTimeout(() => {
                 this.reels[i].stopSpin();

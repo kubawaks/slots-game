@@ -12,6 +12,7 @@ const SYMBOL_TEXTURES = [
 const SPIN_SPEED = 50; // Pixels per frame
 const SLOWDOWN_RATE = 0.95; // Rate at which the reel slows down
 
+// Extend Reels class by PIXI.Container to get rid of container property
 export class Reel {
     public container: PIXI.Container;
     private symbols: PIXI.Sprite[];
@@ -41,6 +42,7 @@ export class Reel {
         }
     }
 
+    // End of spin could work smoother, consider to check implementation and try to fix it
     public update(delta: number): void {
         if (!this.isSpinning && this.speed === 0) return;
 
@@ -89,6 +91,7 @@ export class Reel {
         return SYMBOL_TEXTURES[Math.floor(Math.random() * SYMBOL_TEXTURES.length)];
     }
 
+    // Each reel has own mask, I would to implement one mask for entire machine instead of mask per reel
     private createMask(): PIXI.Graphics {
         const mask = new PIXI.Graphics();
         mask.x = 0;
