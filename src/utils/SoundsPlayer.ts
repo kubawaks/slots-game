@@ -22,7 +22,6 @@ export class SoundsPlayer {
     stop(name: string): void {
         if(this.sounds.has(name)) {
             this.sounds.get(name)?.stop();
-            // TODO stop does not work as expected
         }
     }
 }

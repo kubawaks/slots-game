@@ -113,7 +113,7 @@ export class SlotMachine {
                         if (this.spinButton) {
                             this.spinButton.texture = AssetLoader.getTexture('button_spin.png');
                             this.spinButton.interactive = true;
-                            this.soundPlayer.stop('spin_button');
+                            this.soundPlayer.stop('reel_spin');
                         }
                     }, 500);
                 }
@@ -126,11 +126,11 @@ export class SlotMachine {
         const randomWin = Math.random() < 0.3; // 30% chance of winning
 
         if (randomWin) {
-            this.soundPlayer.play('win');
-            console.log('Winner!');
-
-            if (this.winAnimation) {
-                // TODO: Play the win animation found in "big-boom-h" spine
+            if (this.winAnimation && this.winAnimation.state.hasAnimation('start')) {
+                this.soundPlayer.play('win');
+                console.log('Winner!');
+                this.winAnimation.visible = true;
+                this.winAnimation.state.setAnimation(0, 'start', false);
             }
         }
     }

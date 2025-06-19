@@ -94,7 +94,7 @@ export class Reel {
         mask.x = 0;
         mask.y = 0;
         mask.beginFill(0x000000);
-        mask.drawRect(0, 0, this.symbolSize * this.symbolCount, this.symbolSize); // adjust dimensions
+        mask.drawRect(0, 0, this.symbolSize * this.symbolCount, this.symbolSize);
         mask.endFill();
 
         return this.container.addChild(mask);
