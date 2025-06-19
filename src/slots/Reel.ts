@@ -91,7 +91,7 @@ export class Reel {
         return SYMBOL_TEXTURES[Math.floor(Math.random() * SYMBOL_TEXTURES.length)];
     }
 
-    // Each reel has own mask, I would to implement one mask for entire machine instead of mask per reel
+    // Each reel has own mask, I would to implement one mask for entire machine instead of mask per reel.
     private createMask(): PIXI.Graphics {
         const mask = new PIXI.Graphics();
         mask.x = 0;
