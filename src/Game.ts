@@ -18,6 +18,10 @@ export class Game {
             autoDensity: true,
         });
 
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
+        globalThis.__PIXI_APP__ = this.app;
+
         const gameContainer = document.getElementById('game-container');
         if (gameContainer) {
             gameContainer.appendChild(this.app.view as HTMLCanvasElement);
