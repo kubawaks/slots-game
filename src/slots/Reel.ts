@@ -27,24 +27,31 @@ export class Reel {
         this.symbolCount = symbolCount;
 
         this.createSymbols();
+        this.container.mask = this.createMask();
     }
 
     private createSymbols(): void {
-        // Create symbols for the reel, arranged horizontally
-    }
+        for(let i = 0; i< this.symbolCount; i++) {
+            const symbol = this.container.addChild(this.createRandomSymbol());
+            symbol.width = this.symbolSize;
+            symbol.height = this.symbolSize;
+            symbol.x = this.symbolSize * i;
 
-    private createRandomSymbol(): PIXI.Sprite {
-        // TODO:Get a random symbol texture
-
-        // TODO:Create a sprite with the texture
-
-        return new PIXI.Sprite();
+            this.symbols.push(symbol);
+        }
     }
 
     public update(delta: number): void {
         if (!this.isSpinning && this.speed === 0) return;
 
-        // TODO:Move symbols horizontally
+        for (let symbol of this.symbols) {
+            if (symbol.x < this.symbolSize * this.symbolCount) {
+                symbol.x += this.speed * delta
+            } else {
+                symbol.x = 0;
+                symbol.texture = PIXI.Texture.from(this.getRandomSymbolTextureName());
+            }
+        }
 
         // If we're stopping, slow down the reel
         if (!this.isSpinning && this.speed > 0) {
@@ -59,8 +66,9 @@ export class Reel {
     }
 
     private snapToGrid(): void {
-        // TODO: Snap symbols to horizontal grid positions
-
+        for (let symbol of this.symbols) {
+            symbol.x = this.symbolSize * this.symbols.indexOf(symbol);
+        }
     }
 
     public startSpin(): void {
@@ -69,7 +77,27 @@ export class Reel {
     }
 
     public stopSpin(): void {
-        this.isSpinning = false;
         // The reel will gradually slow down in the update method
+        this.isSpinning = false;
     }
+
+    private createRandomSymbol(): PIXI.Sprite {
+        return new PIXI.Sprite(AssetLoader.getTexture(this.getRandomSymbolTextureName()));
+    }
+
+    private getRandomSymbolTextureName(): string {
+        return SYMBOL_TEXTURES[Math.floor(Math.random() * SYMBOL_TEXTURES.length)];
+    }
+
+    private createMask(): PIXI.Graphics {
+        const mask = new PIXI.Graphics();
+        mask.x = 0;
+        mask.y = 0;
+        mask.beginFill(0x000000);
+        mask.drawRect(0, 0, this.symbolSize * this.symbolCount, this.symbolSize); // adjust dimensions
+        mask.endFill();
+
+        return this.container.addChild(mask);
+    }
+
 }
