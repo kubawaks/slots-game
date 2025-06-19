@@ -52,5 +52,5 @@ Your submission will be evaluated on the following criteria:
 Good luck, and happy coding!
 
 Hi would like to apologize for not finished task, but I had limited time.
-I skipped part  unit tests as I had no time to finish refactoring. As I set death line for today,
+I skipped part of unit tests as I had no time to finish refactoring. As I set deadline for today,
 I send what I was able to do.
