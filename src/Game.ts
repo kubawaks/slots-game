@@ -2,9 +2,11 @@ import * as PIXI from 'pixi.js';
 import { SlotMachine } from './slots/SlotMachine';
 import { AssetLoader } from './utils/AssetLoader';
 import { UI } from './ui/UI';
+import {SoundsPlayer} from "./utils/SoundsPlayer";
 
 export class Game {
     private app: PIXI.Application;
+    private soundsPlayer: SoundsPlayer
     private slotMachine!: SlotMachine;
     private ui!: UI;
     private assetLoader: AssetLoader;
@@ -27,7 +29,8 @@ export class Game {
             gameContainer.appendChild(this.app.view as HTMLCanvasElement);
         }
 
-        this.assetLoader = new AssetLoader();
+        this.soundsPlayer = new SoundsPlayer();
+        this.assetLoader = new AssetLoader(this.soundsPlayer);
 
         this.init = this.init.bind(this);
         this.resize = this.resize.bind(this);
@@ -41,10 +44,10 @@ export class Game {
         try {
             await this.assetLoader.loadAssets();
 
-            this.slotMachine = new SlotMachine(this.app);
+            this.slotMachine = new SlotMachine(this.app, this.soundsPlayer);
             this.app.stage.addChild(this.slotMachine.container);
 
-            this.ui = new UI(this.app, this.slotMachine);
+            this.ui = new UI(this.app, this.slotMachine, this.soundsPlayer);
             this.app.stage.addChild(this.ui.container);
 
             this.app.ticker.add(this.update.bind(this));

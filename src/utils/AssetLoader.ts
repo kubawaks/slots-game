@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js';
-import { sound } from './sound';
+import {SoundsPlayer} from "./SoundsPlayer";
 
 // Asset paths
 const IMAGES_PATH = 'assets/images/';
@@ -23,19 +23,20 @@ const SPINES = [
     'base-feature-frame.json'
 ];
 
-
 const SOUNDS = [
-    'Reel spin.webm',
+    'reel_spin.webm',
     'win.webm',
-    'Spin button.webm',
+    'spin_button.webm',
 ];
 
 const textureCache: Record<string, PIXI.Texture> = {};
 const spineCache: Record<string, any> = {};
 
 export class AssetLoader {
-    constructor() {
+    private soundPlayer: SoundsPlayer;
+    constructor(soundsPlayer: SoundsPlayer) {
         PIXI.Assets.init({ basePath: '' });
+        this.soundPlayer = soundsPlayer;
     }
 
     public async loadAssets(): Promise<void> {
@@ -79,7 +80,7 @@ export class AssetLoader {
     private async loadSounds(): Promise<void> {
         try {
             SOUNDS.forEach(soundFile => {
-                sound.add(soundFile.split('.')[0], SOUNDS_PATH + soundFile);
+               this.soundPlayer.add(soundFile.split('.')[0], SOUNDS_PATH + soundFile);
             });
         } catch (error) {
             console.error('Error loading sounds:', error);

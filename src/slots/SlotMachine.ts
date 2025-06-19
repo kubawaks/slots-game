@@ -1,9 +1,9 @@
 import * as PIXI from 'pixi.js';
 import 'pixi-spine';
 import { Reel } from './Reel';
-import { sound } from '../utils/sound';
 import { AssetLoader } from '../utils/AssetLoader';
 import {Spine} from "pixi-spine";
+import {SoundsPlayer} from "../utils/SoundsPlayer";
 
 const REEL_COUNT = 4;
 const SYMBOLS_PER_REEL = 6;
@@ -15,13 +15,15 @@ export class SlotMachine {
     public container: PIXI.Container;
     private reels: Reel[];
     private app: PIXI.Application;
+    private soundPlayer: SoundsPlayer;
     private isSpinning: boolean = false;
     private spinButton: PIXI.Sprite | null = null;
     private frameSpine: Spine | null = null;
     private winAnimation: Spine | null = null;
 
-    constructor(app: PIXI.Application) {
+    constructor(app: PIXI.Application, soundsPlayer: SoundsPlayer) {
         this.app = app;
+        this.soundPlayer = soundsPlayer;
         this.container = new PIXI.Container();
         this.reels = [];
 
@@ -76,7 +78,7 @@ export class SlotMachine {
         this.isSpinning = true;
 
         // Play spin sound
-        sound.play('Reel spin');
+        this.soundPlayer.play('reel_spin');
 
         // Disable spin button
         if (this.spinButton) {
@@ -111,6 +113,7 @@ export class SlotMachine {
                         if (this.spinButton) {
                             this.spinButton.texture = AssetLoader.getTexture('button_spin.png');
                             this.spinButton.interactive = true;
+                            this.soundPlayer.stop('spin_button');
                         }
                     }, 500);
                 }
@@ -123,7 +126,7 @@ export class SlotMachine {
         const randomWin = Math.random() < 0.3; // 30% chance of winning
 
         if (randomWin) {
-            sound.play('win');
+            this.soundPlayer.play('win');
             console.log('Winner!');
 
             if (this.winAnimation) {

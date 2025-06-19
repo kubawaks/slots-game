@@ -1,27 +1,28 @@
 import {Howl} from 'howler';
 
 export class SoundsPlayer {
-    private static sounds: Map<string, Howl>;
+    private sounds: Map<string, Howl>;
 
     constructor() {
-        SoundsPlayer.sounds = new Map();
+        this.sounds = new Map();
     }
 
     add(soundName: string, url: string): void {
-        SoundsPlayer.sounds.set(soundName, new Howl({
+        this.sounds.set(soundName, new Howl({
             src: url,
         }))
     }
 
-    static play(name: string) {
+    play(name: string) {
         if(this.sounds.has(name)) {
             this.sounds.get(name)?.play();
         }
     }
 
-    static stop(name: string): void {
+    stop(name: string): void {
         if(this.sounds.has(name)) {
             this.sounds.get(name)?.stop();
+            // TODO stop does not work as expected
         }
     }
 }
